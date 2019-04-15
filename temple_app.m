@@ -1,13 +1,26 @@
-%--------------------------------------------
+%---------------------------------------------
+%---------------------------------------------
 %TU Application Exercise
 %Aryaman Majumdar
-%Contains code for all parts of the exercise
-%--------------------------------------------
+%
+%Contains code for all parts of the exercise.
+%---------------------------------------------
+%---------------------------------------------
+%One thing to note: The readmatrix() function 
+%I used works for Matlab R2019a or higher.
+%It won't work for older versions.
+%The reason I used this function is because
+%the function csvread() is being depreciated.
+%And thus shouldn't be used.
+%---------------------------------------------
+%---------------------------------------------
+
 function[] = temple_app()
 
    %Get all the data in a matrix (separate matrix for each task)
    [A, B] = return_matrix(); 
    
+   %Now we have task A data in matrix A and task B data in matrix B.
    
    
    %--------------------------------------------------------------------
@@ -18,24 +31,26 @@ function[] = temple_app()
    %Get the response times from the data matrix
    [FOR_SELF, FOR_PARTNER, FOR_SELF_2, FOR_PARTNER_2] = RT_self_vs_partner(B);
 
+   %Now we have the Choice 1 data in FOR_SELF and FOR_PARTNER,
+   %and the Choice 2 data in FOR_SELF_2 and FOR_PARTNER_2.
    
    
    %Plot the RT effects for each subject:
    %For Choice 1
-   plot_RT__FOR_SELF_V_FOR_PARTNER(FOR_SELF, FOR_PARTNER);
+   plot_RT__FOR_SELF_V_FOR_PARTNER(FOR_SELF, FOR_PARTNER, 1);
    
    %For Choice 2
-   plot_RT__FOR_SELF_V_FOR_PARTNER(FOR_SELF_2, FOR_PARTNER_2);
+   plot_RT__FOR_SELF_V_FOR_PARTNER(FOR_SELF_2, FOR_PARTNER_2, 2);
    
    
    
    
    %Plot the RTs across subjects:
    %For Choice 1
-   plot_RT__FOR_SELF_V_FOR_PARTNER_OVERALL(FOR_SELF, FOR_PARTNER);
+   plot_RT__FOR_SELF_V_FOR_PARTNER_OVERALL(FOR_SELF, FOR_PARTNER, 1);
    
    %For Choice 2
-   plot_RT__FOR_SELF_V_FOR_PARTNER_OVERALL(FOR_SELF_2, FOR_PARTNER_2);
+   plot_RT__FOR_SELF_V_FOR_PARTNER_OVERALL(FOR_SELF_2, FOR_PARTNER_2, 2);
    
    
    
@@ -58,9 +73,9 @@ end
 
 
 
-%Returns a 3D matrix: Think of it basically as a book,
-%with each page corresponding to each subject.
-%Only works for the Task B data
+%Returns the task A and task B data as 3D matrices: 
+%Think of it basically as a book, with each page 
+%corresponding to each subject.
 function [A_final, B_final] = return_matrix()
     for k=0:9
         
@@ -77,12 +92,15 @@ function [A_final, B_final] = return_matrix()
         A = readmatrix(file_str_task_A);
         B = readmatrix(file_str_task_B);
         
+        %Put the pages together
+        %For Task A:
         for m=1:199
             for n=1:3
                 A_final(m,n,k+1) = A(m,n);
             end
         end
         
+        %For Task B:
         for i=1:180
             for j=1:13
                 B_final(i,j,k+1) = B(i,j);
@@ -93,6 +111,13 @@ function [A_final, B_final] = return_matrix()
 end
 
 
+
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+%The following three functions extract data for RTs and preferences,
+%from the matrices.
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
 
 %Returns two lists; one with the "For Self" RTs,
 %the other with the "For Partner" RTs.
@@ -125,6 +150,8 @@ function [FOR_SELF, FOR_PARTNER, FOR_SELF_2, FOR_PARTNER_2] = RT_self_vs_partner
         trial_partner=1;
     end
     
+    %Replace trailing zeros with NaNs for easier handling later
+    %(I know, weird, but trust me).
     FOR_SELF(FOR_SELF==0) = NaN;
     FOR_PARTNER(FOR_PARTNER==0) = NaN;
     
@@ -163,6 +190,7 @@ function [FOR_SELF_PREF, FOR_PARTNER_PREF] = pref_self_vs_partner(M)
         trial_partner=1;
     end
     
+    %Replace trailing zeros with NaNs for easier handling, again
     FOR_SELF_PREF(FOR_SELF_PREF==0) = NaN;
     FOR_PARTNER_PREF(FOR_PARTNER_PREF==0) = NaN;
    
@@ -190,9 +218,15 @@ end
 
 
 
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+%The following four functions plot the data.
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+
 %Plots the "For Self" and "For Partner" RTs as lines
 %with error bars, as needed (std errors)
-function [] = plot_RT__FOR_SELF_V_FOR_PARTNER(FOR_SELF, FOR_PARTNER)
+function [] = plot_RT__FOR_SELF_V_FOR_PARTNER(FOR_SELF, FOR_PARTNER, choice_1_or_2)
     
 
     %Get the averages
@@ -214,11 +248,24 @@ function [] = plot_RT__FOR_SELF_V_FOR_PARTNER(FOR_SELF, FOR_PARTNER)
         rand_blue = rand;
         rand_green = rand;
         
+        %Each subject gets a random-colored line
         er.Color = [rand_red, rand_blue, rand_green];
-        set(gca, 'XTick', 1:2, 'XTickLabel', {'For Self', 'For Partner'}, 'FontSize', 16);
+        set(gca, 'XTick', 1:2, 'XTickLabel', {'For Self', 'For Partner'}, 'FontSize', 10);
         xlim([0.75, 2.25]);
         
+        
         hold on
+    end
+    
+    %Set the axis labels
+    xlabel('Condition (Self vs. Partner)');
+    ylabel('Respose time (s)');
+        
+    %Set the figure title
+    if(choice_1_or_2 == 1)
+        title('Choice 1 Response Times');
+    else
+        title('Choice 2 Response Times');
     end
 
 end
@@ -226,7 +273,7 @@ end
 
 
 %Plots the overall effect for self vs. partner on RT (cross-subject)
-function [] = plot_RT__FOR_SELF_V_FOR_PARTNER_OVERALL(FOR_SELF, FOR_PARTNER)
+function [] = plot_RT__FOR_SELF_V_FOR_PARTNER_OVERALL(FOR_SELF, FOR_PARTNER, choice_1_or_2)
 
     %Get the averages
     MEANS_SELF = nanmean(FOR_SELF, 2);
@@ -255,7 +302,19 @@ function [] = plot_RT__FOR_SELF_V_FOR_PARTNER_OVERALL(FOR_SELF, FOR_PARTNER)
     er=errorbar(1:2,MEANS,LARGER_STDERRS);
     er.Color = [0 0 0];
     er.LineStyle = 'none';
-    set(gca,'XTick',1:2,'XTickLabel',{'For Self', 'For Partner'}, 'FontSize', 16);
+    set(gca,'XTick',1:2,'XTickLabel',{'For Self', 'For Partner'}, 'FontSize', 10);
+    
+    %Set the axis labels
+    xlabel('Condition (Self vs. Partner)');
+    ylabel('Respose time (s)');    
+        
+    %Set the figure title
+    if(choice_1_or_2 == 1)
+        title('Choice 1 Response Times (cross-subject)');
+    else
+        title('Choice 2 Response Times (cross-subject)');
+    end
+
 
 end
 
@@ -287,11 +346,18 @@ function [] = plot_PREF__A_V_SELF_V_PARTNER(PREF_TASK_A, PREF_TASK_B_SELF, PREF_
         rand_green = rand;
         
         er.Color = [rand_red, rand_blue, rand_green];
-        set(gca, 'XTick', 1:3, 'XTickLabel', {'Task A', 'Task B Self', 'Task B Partner'}, 'FontSize', 16);
+        set(gca, 'XTick', 1:3, 'XTickLabel', {'Task A', 'Task B Self', 'Task B Partner'}, 'FontSize', 10);
         xlim([0.75, 3.25]);
         
         hold on
     end
+    
+    %Set the axis labels
+    xlabel('Condition (Self vs. Partner)');
+    ylabel('Respose time (s)');
+        
+    %Set the figure title
+    title('Preference ratings');
 
 end
 
@@ -333,12 +399,22 @@ function [] = plot_PREF__A_V_SELF_V_PARTNER_OVERALL(PREF_TASK_A, PREF_TASK_B_SEL
     er.Color = [0 0 0];
     er.LineStyle = 'none';
     set(gca,'XTick',1:3,'XTickLabel',{'Task A', 'Task B Self', 'Task B Partner'}, 'FontSize', 9);
+    
+    
+    %Set the axis labels
+    xlabel('Condition (Task A vs. Task B Self vs. Task B Partner)');
+    ylabel('Preference rating');
+        
+    %Set the figure title
+    title('Preference ratings (cross-subject)');
 
 end
 
 
 %--------------------------------------------------------------------
+%--------------------------------------------------------------------
 %Below are just some auxilliary functions.
+%--------------------------------------------------------------------
 %--------------------------------------------------------------------
    
 %Returns the number of elements in a 2D input matrix
@@ -372,4 +448,3 @@ function [size_without_nans] = return_size_without_nans_dim(A, dim)
         end
     end
 end
-
