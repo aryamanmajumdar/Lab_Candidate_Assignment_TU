@@ -29,6 +29,5 @@ and later versions. The older csvread() function is depreciated, so I thought
 best not to use it.
 
 The code does assume that subject IDs are numeric and ordinal. This is the only
-'trickish' thing I did in the code. In the case that this doesn't hold, the code 
-can be easily modified a bit to make it more general. Hopefully, this won't cost 
-me the job!
+'trickish' thing I did in the code. In the case that this ordinality doesn't hold, 
+the code can be easily modified a bit to make it more general.
