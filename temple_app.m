@@ -10,7 +10,7 @@
 %I used works for Matlab R2019a or higher.
 %It won't work for older versions.
 %The reason I used this function is because
-%the function csvread() is being depreciated,
+%the function csvread() is being deprecated,
 %And thus shouldn't be used.
 %---------------------------------------------
 %---------------------------------------------
