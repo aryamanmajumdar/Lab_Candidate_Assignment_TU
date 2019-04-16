@@ -21,6 +21,9 @@ predicting the trend for a sample, but doesn't speak to the significance of
 the effect of individual subjects.
 For that, just look at figures the 'overall' folder.
 
+An example of one of the 'individual effect' figures:
+![alt text](/figures/jpegs/individual/RT_choice1_individual.jpg)
+
 ## 2. Code
 
 The code is in 'temple_app.m'.
