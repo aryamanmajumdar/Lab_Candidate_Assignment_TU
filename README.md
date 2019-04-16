@@ -34,3 +34,8 @@ best not to use it.
 The code does assume that subject IDs are numeric and ordinal. This is the only
 'trickish' thing I did in the code. In the case that this ordinality doesn't hold, 
 the code can be easily modified a bit to make it more general.
+
+I also indulged in a bit of bad practice in a few places, like 
+not initializing matrices before entering loops. Not a problem 
+in this case, but best to keep it in mind if we need to modify 
+this specific code in the future!
