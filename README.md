@@ -1,7 +1,7 @@
 # Lab_Candidate_Assignment_TU
 For the Temple University Neuroeconomics and SDNL application
 
-1. Figures
+## 1. Figures
 
 The required figures are all in the 'figures' folder.
 They're both in JPEG and TIFF formats - JPEG for easy viewing
@@ -19,7 +19,7 @@ might be valuable in predicting the trend for a sample, but doesn't speak
 to the significance of the effect of individual subjects.
 For that, just look at figures the 'overall' folder.
 
-2. Code
+## 2. Code
 
 The code is in 'temple_app.m'.
 Note that the readmatrix() function that I used will only work in Matlab 2019a
