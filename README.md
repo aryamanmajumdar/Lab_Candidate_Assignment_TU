@@ -28,7 +28,7 @@ An example of one of the 'individual effect' figures:
 
 The code is in 'temple_app.m'.
 Note that the readmatrix() function that I used will only work in Matlab 2019a
-and later versions. The older csvread() function is depreciated, so I thought
+and later versions. The older csvread() function is deprecated, so I thought
 best not to use it.
 
 The code does assume that subject IDs are numeric and ordinal. This is the only
