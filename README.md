@@ -10,6 +10,7 @@ on GitHub, and TIFF to give you the raw image.
 The 'individual' folder contains the individual effect plots.
 The 'overall' folder contains bar plots showing the effect across subjects.
 
+### Important
 The 'overall_largerstderrs' folder contains the same bar plots, but
 with a different calculation for standard errors - using all subjects
 within a condition. This results in significant differences for some
