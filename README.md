@@ -24,6 +24,10 @@ For that, just look at figures the 'overall' folder.
 An example of one of the 'individual effect' figures:
 ![alt text](/figures/jpegs/individual/RT_choice1_individual.jpg)
 
+There were some assumptions I made in interpretating the instructions.
+One of these is that the you wanted all the preference ratings from
+Task A, instead of just high ratings for example.
+
 ## 2. Code
 
 The code is in 'temple_app.m'.
